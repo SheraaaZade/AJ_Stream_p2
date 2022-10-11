@@ -6,10 +6,12 @@ import domaine.Genre;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class ExerciceFunctionalInterface {
     public static List<Employe> employes;
+
     public static void main(String[] args) {
         employes = new ArrayList<>();
 
@@ -49,19 +51,19 @@ public class ExerciceFunctionalInterface {
                 .filter(e -> e.getGenre() == Genre.HOMME)
                 .sorted(Comparator.comparingInt(Employe::getTaille)
                         .reversed())
-                .map( e -> e.getNom());
-        System.out.println(listeNom);
+                .map(new MapName());
+        System.out.println("exMap");
+        exForEach();
 
     }
-
 
     /**
      * Trouver le type du paramètre de la méthode foreach.
      * Ensuite créer une classe implémentant la functional interface correspondante pour
      * remplacer le lambda en paramètre par une instance de celle-ci.
      */
-    private static void exForEach(){
-        employes.forEach(e -> System.out.println(e));
+    private static void exForEach() {
+        employes.forEach(new NameForeach());
 
 
     }

@@ -15,24 +15,24 @@ public class TestLambda {
         //TODO: Remplacez les ??? par des expressions lambda appropriées
 
         //Trouve tous les entiers de la liste qui sont plus grands que 200
-        result = Lambda.allMatches(list, ???);
-        System.out.println(result);
-
-        //Trouve tous les entiers pairs de la liste
-        result = Lambda.allMatches(list, ???);
-        System.out.println(result);
-
-        //Trouve tous les entiers de la liste dont le premier chiffre est 1
-        result = Lambda.allMatches(list, ???);
-        System.out.println(result);
-
-        //Retourne une liste contenant les entiers de la liste originale multipliés par 2
-        result = Lambda.transformAll(list, ???);
-        System.out.println(result);
-
-        //Retourne une liste contenant les entiers de la liste originale auxquels on a soustrait 25
-        result = Lambda.transformAll(list, ???);
-        System.out.println(result);
+//        result = Lambda.allMatches(list, ???);
+//        System.out.println(result);
+//
+//        //Trouve tous les entiers pairs de la liste
+//        result = Lambda.allMatches(list, ???);
+//        System.out.println(result);
+//
+//        //Trouve tous les entiers de la liste dont le premier chiffre est 1
+//        result = Lambda.allMatches(list, ???);
+//        System.out.println(result);
+//
+//        //Retourne une liste contenant les entiers de la liste originale multipliés par 2
+//        result = Lambda.transformAll(list, ???);
+//        System.out.println(result);
+//
+//        //Retourne une liste contenant les entiers de la liste originale auxquels on a soustrait 25
+//        result = Lambda.transformAll(list, ???);
+ //       System.out.println(result);
 
 
 
