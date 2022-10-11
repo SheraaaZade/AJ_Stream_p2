@@ -34,7 +34,7 @@ public class ExerciceFunctionalInterface {
      * Replacer l'instatiation de la classe EmployeComparator par un lambda
      */
     private static void exComparator() {
-        employes.sort(new EmployeComparator());
+      //  employes.sort();
         System.out.println("Employés triés:");
         System.out.println(employes);
 
