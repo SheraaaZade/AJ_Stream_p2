@@ -42,8 +42,6 @@ public class ExerciceFunctionalInterface {
         });
         System.out.println("Employés triés:");
         System.out.println(employes);
-
-
     }
 
     /**
@@ -58,7 +56,7 @@ public class ExerciceFunctionalInterface {
                         .reversed())
                 .map(new MapName());
         System.out.println("exMap");
-        exForEach();
+        listeNom.forEach(System.out::println);
 
     }
 
@@ -69,7 +67,5 @@ public class ExerciceFunctionalInterface {
      */
     private static void exForEach() {
         employes.forEach(new NameForeach());
-
-
     }
 }
