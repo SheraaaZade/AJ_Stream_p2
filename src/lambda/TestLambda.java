@@ -15,23 +15,23 @@ public class TestLambda {
         //TODO: Remplacez les ??? par des expressions lambda appropriées
 
         //Trouve tous les entiers de la liste qui sont plus grands que 200
-        result = (List<Integer>) Lambda.allMatches(list, a -> a > 200);
+        result = Lambda.allMatches(list, a -> a > 200);
         System.out.println(result);
 //
 //        //Trouve tous les entiers pairs de la liste
-        result = (List<Integer>) Lambda.allMatches(list, a -> a % 2 == 0);
+        result = Lambda.allMatches(list, a -> a % 2 == 0);
         System.out.println(result);
 //
 //        //Trouve tous les entiers de la liste dont le premier chiffre est 1
-        result = (List<Integer>) Lambda.allMatches(list, a -> Integer.toString(a).startsWith("1"));
+        result = Lambda.allMatches(list, a -> Integer.toString(a).startsWith("1"));
         System.out.println(result);
 //
 //        //Retourne une liste contenant les entiers de la liste originale multipliés par 2
-        result = (List<Integer>) Lambda.transformAll(list, a -> a * 2);
+        result = Lambda.transformAll(list, a -> a * 2);
         System.out.println(result);
 
 //        //Retourne une liste contenant les entiers de la liste originale auxquels on a soustrait 25
-        result = (List<Integer>) Lambda.transformAll(list, a -> a - 25);
+        result = Lambda.transformAll(list, a -> a - 25);
         System.out.println(result);
 
 
@@ -41,13 +41,17 @@ public class TestLambda {
         List<String> list2 = Arrays.asList("hello", "bonjour", "goeiedag", "hallo", "hej");
 //
 //        //Trouve toutes les String de la liste qui commencent par "h"
-        List<String> result2 = (List<String>) Lambda.allMatches(list2, a -> a.toString().startsWith("h"));
+        List<String> result2 = Lambda.allMatches(list2, a -> a.startsWith("h"));
         System.out.println(result2);
 //
-//        //Retourner une liste qui contient la taille de chacune des String de la liste originale
-        List<Integer> result3 = (List<Integer>) Lambda.transformAll(list2, e -> e.toString().length());
+        //Retourner une liste qui contient la taille de chacune des String de la liste originale
+        List<Integer> result3 = Lambda.transformAll(list2, String::length);
         System.out.println(result3);
 
+        List<String> resultStream1 = Lambda.filter(list2, a -> a.startsWith("h"));
+        System.out.println(resultStream1);
 
+        List<Integer> resultStream2 = Lambda.map(list2, String::length);
+        System.out.println(resultStream2);
     }
 }

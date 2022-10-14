@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Lambda {
 
@@ -16,11 +17,11 @@ public class Lambda {
      * @param match le predicat à respecter
      * @return une liste contenant les integer qui respectent match
      */
-    public static List<?> allMatches(List<?> list, Predicate<Integer> match) {
+    public static<T> List<T> allMatches(List<T> list, Predicate<T> match) {
         //TODO
-        List <Object> listMatch = new ArrayList<>();
-        for (Object val : list) {
-            if(match.test((Integer) val))
+        List <T> listMatch = new ArrayList<>();
+        for (T val : list) {
+            if(match.test(val))
                 listMatch.add(val);
         }
         return listMatch;
@@ -34,14 +35,20 @@ public class Lambda {
      * @param transform la fonction à appliquer aux éléments
      * @return une liste contenant les integer transformés par transform
      */
-    public static List<?> transformAll(List<?> list, Function<Integer, Integer> transform) {
-        //TODO
-
-        for (Object val : list) {
-            transform.apply((Integer) val);
+    public static<T,R> List<R> transformAll(List<T> list, Function<T, R> transform) {
+        List <R> listes = new ArrayList<>();
+        for (T val : list) {
+            listes.add (transform.apply(val));
         }
-        return list;
+        return listes;
     }
 
+    public static<T> List<T> filter (List<T> list, Predicate<T> match){
+        return list.stream().filter(match).collect(Collectors.toList());
+    }
+
+    public static<T,R> List<R> map (List<T> list, Function<T, R> transform){
+        return list.stream().map(transform).collect(Collectors.toList());
+    }
 
 }
