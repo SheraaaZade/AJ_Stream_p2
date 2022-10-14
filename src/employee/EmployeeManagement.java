@@ -1,11 +1,18 @@
 package employee;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 public class EmployeeManagement {
 
@@ -17,7 +24,12 @@ public class EmployeeManagement {
     private static final Supplier<Stream<String>> supplier = () -> {
         //TODO: retourner un stream créer à partir du fichier. Aidez vous de la p.15 : "Créer des streams"
         //      En cas d'IOException, vous devez lancer une UncheckedIOException
-        return null;
+
+        try{
+            return Files.lines(Paths.get("./resources/streamingvf.csv"), Charset.defaultCharset());
+        }catch (IOException e){
+            throw new UncheckedIOException(e);
+        }
     };
 
     public static void main(String[] args) {
@@ -42,7 +54,7 @@ public class EmployeeManagement {
      */
     private static String firstLine() {
         //TODO
-        return null;
+        return supplier.get().findFirst().orElse("vide");
     }
 
 
@@ -55,7 +67,13 @@ public class EmployeeManagement {
         Predicate<String> predicate = s -> s.length() > 8;
         //TODO: combiner predicate avec d'autres  (p.7 : "Predicate"), puis le passer en paramètre de
         //      de l'appel filter() pour filtrer les résultats.
-        return null;
+
+        Predicate <String> car = (e) -> e.startsWith("O") ;
+        List<String> list = supplier.get()
+                .filter(predicate)
+                .filter(car.and(e->e.startsWith("K")))
+                .collect(toList()); ;
+        return list;
     }
 
     /**
