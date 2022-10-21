@@ -1,15 +1,20 @@
 package employee;
 
+import domaine.Employe;
+
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -35,14 +40,14 @@ public class EmployeeManagement {
     public static void main(String[] args) {
 
         System.out.println("1. Première ligne du fichier : [" + firstLine() + "]");
-        System.out.println("\n3. Noms de famille de plus de 8 lettres contenant 'K' ou 'O' :\n" + filteredLastnames());
-        System.out.println("\n4. Liste des comptes occurences de 'e' :\n" + occurencesOfE());
-        System.out.println("\n5. Tous les emails se terminent-ils par 'streamingvf.be' ? :" + allEmailCorrect());
-        System.out.println("\n6. Prénom d'un employé au log nom de famille : " + longLastName());
-        System.out.println("\n7. Nombre d'employés à mi-temps : " + numbreOfPartTimers());
-        System.out.println("\n8. Ids selon plein temps/mi-temps :");
+        System.out.println("\n2. Noms de famille de plus de 8 lettres contenant 'K' ou 'O' :\n" + filteredLastnames());
+        System.out.println("\n3. Liste des comptes occurences de 'e' :\n" + occurencesOfE());
+        System.out.println("\n4. Tous les emails se terminent-ils par 'streamingvf.be' ? :" + allEmailCorrect());
+        System.out.println("\n5. Prénom d'un employé au log nom de famille : " + longLastName());
+        System.out.println("\n6. Nombre d'employés à mi-temps : " + numbreOfPartTimers());
+        System.out.println("\n7. Ids selon plein temps/mi-temps :");
         timeDistrubution().forEach((k, v) -> System.out.println(k + " : " + v));
-        System.out.print("\n9. Plus long nom du fichier : ");
+        System.out.print("\n8. Plus long nom du fichier : ");
         printLongestName();
 
     }
@@ -64,16 +69,14 @@ public class EmployeeManagement {
      * @return une liste de String de plus de 8 lettres contenant 'O' ou 'K'
      */
     private static List<String> filteredLastnames() {
-        Predicate<String> predicate = s -> s.length() > 8;
+        Predicate<String> predicate = s -> s.length() > 8 && s.contains("O") || s.contains("K");
         //TODO: combiner predicate avec d'autres  (p.7 : "Predicate"), puis le passer en paramètre de
         //      de l'appel filter() pour filtrer les résultats.
 
-        Predicate <String> car = (e) -> e.startsWith("O") ;
-        List<String> list = supplier.get()
+        return supplier.get()
+                .map(s-> s.split(";")[1])
                 .filter(predicate)
-                .filter(car.and(e->e.startsWith("K")))
-                .collect(toList()); ;
-        return list;
+                .collect(toList());
     }
 
     /**
@@ -87,7 +90,18 @@ public class EmployeeManagement {
         //      prénom (firstname) de l'Employee passé en paramètre.
         //      Retourner une liste contenant le nombre d'occurences du caractère 'e' dans les
         //      prénoms de tous les employés en utilisant votre BiFunction.
-        return null;
+
+
+        BiFunction<Employee, Character, Integer> namer = (emp, carac) -> {
+            int i = 0;
+            for (Character c : emp.getFirstname().toCharArray()) {
+                if(c == carac) i++;
+            }
+            return i;
+        };
+        return supplier.get()
+                .map((line) ->
+                        namer.apply(new Employee(line), 'e')).collect(toList());
     }
 
     /**
