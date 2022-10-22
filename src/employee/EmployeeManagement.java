@@ -8,6 +8,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -17,7 +18,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.*;
 
 public class EmployeeManagement {
 
@@ -80,7 +82,7 @@ public class EmployeeManagement {
     }
 
     /**
-     * Calcule les occurrences du carcatère 'e' dans les prénoms des employés
+     * Calcule les occurrences du caractère 'e' dans les prénoms des employés
      * @return une liste contenant le nombre d'occurrences de 'e' pour chaque prénom d'employé.
      */
     private static List<Integer> occurencesOfE() {
@@ -109,8 +111,8 @@ public class EmployeeManagement {
      * @return true si tous les emails se terminent par "streamingvf.be", false sinon
      */
     private static boolean allEmailCorrect() {
-        //TODO
-        return false;
+        return supplier.get().map((line) -> line.split(";")[3])
+                .allMatch(s -> s.endsWith("streamingvf.be"));
     }
 
     /**
@@ -120,7 +122,8 @@ public class EmployeeManagement {
      */
     private static String longLastName() {
         //TODO
-        return "None";
+        return supplier.get().map(s -> s.split(";")[1])
+                .filter(s -> s.length() > 14).findFirst().orElse("None");
     }
 
     /**
@@ -129,7 +132,8 @@ public class EmployeeManagement {
      */
     private static long numbreOfPartTimers() {
         //TODO
-        return 0;
+        return supplier.get().map(s -> s.split(";")[4])
+                .filter(s -> s.equals("MT")).count();
     }
 
     /**
@@ -139,7 +143,9 @@ public class EmployeeManagement {
      */
     private static Map<Boolean, List<Integer>> timeDistrubution() {
         //TODO
-        return null;
+        return supplier.get().map(s -> s.split(";"))
+                .collect(Collectors.groupingBy(s -> s[4].equals("TP"),
+                        Collectors.mapping(s-> Integer.parseInt(s[0]), Collectors.toList())));
     }
 
     /**
@@ -150,6 +156,12 @@ public class EmployeeManagement {
     private static void withLines(Consumer<Stream<String>> consumer) {
         //TODO: try-with-resources avec le Supplier. Le consumer doit utiliser (en utilisant sa méthode accept())
         //      le résultat du Supplier.
+
+        try(Stream<String> lignes= supplier.get()){
+            consumer.accept(lignes);
+        }catch(Exception e){
+            System.out.println("erreur");
+        }
     }
 
     /**
@@ -158,6 +170,9 @@ public class EmployeeManagement {
     private static void printLongestName() {
         withLines( lines -> {
             //TODO: print le plus long nom de famille du fichier
+            lines.map(s -> s.split(";")[1])
+                    .max(Comparator.comparingInt(String::length))
+                    .ifPresent(System.out::println);
         });
     }
 
